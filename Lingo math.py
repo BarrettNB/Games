@@ -43,6 +43,9 @@ unused high-score method.
 
 v. 1.5.2 7/23/19, Barrett Brister. Option given to start the game at level
 2 or 3.
+
+v. 1.5.3 5/06/20, Barrett Brister. Cleaned up the rules() method. Made various
+cleanups to make the code more Pythonic.
 '''
 
 import random
@@ -61,72 +64,73 @@ MAX_DIFFICULTY = 10 #Largest size of the random number. Do not set above 10.
 def entryString():
     leftString = []
     rightString = []
-    print
-
-    leftString.append('   ......................................')
-    leftString.append('   ..._..................................')
-    leftString.append('   ..| |...._............................')
-    leftString.append('   ..| |...[_].._.._....__.._...___......')
-    leftString.append('   ..| |...._..| |/ \../  \| |./   \.....')
-    leftString.append('   ..| |...| |.| /.\ \.| O   |.| O |.....')
-    leftString.append('   ..|___|.|_|.|_|.|_|.\__/| |.\___/.....')
-    leftString.append('   ....................._..| |...........')
-    leftString.append('   ....................| |_| |...........')
-    leftString.append('   ....v. 1.5.2........\_____/...........')
-
-    rightString.append('....................................')
-    rightString.append('._......_.................. _.......')
-    rightString.append('| \..../ |............_....| |......')
-    rightString.append('|  \../  |..__.._..._| |_..| |__....')
-    rightString.append('|   \/   |./  \| |.|_   _|.|    \...')
-    rightString.append('| |\  /| |.| O   |...| |...| /.\ \..')
-    rightString.append('|_|.\/.|_|.\__/|_|...\__|..|_|.|_|..')
-    rightString.append('....................................')
-    rightString.append('....................................')
-    rightString.append('...............by Barrett Brister...')
-
-    for i in range(len(leftString)):
-        print(leftString[i] + rightString[i])
-        #Done this way to make the text art creation easier.
+    print()   
+    leftString = ('   ......................................',
+                  '   ..._..................................',
+                  '   ..| |...._............................',
+                  '   ..| |...[_].._.._....__.._...___......',
+                  '   ..| |...._..| |/ \../  \| |./   \.....',
+                  '   ..| |...| |.| /.\ \.| O   |.| O |.....',
+                  '   ..|___|.|_|.|_|.|_|.\__/| |.\___/.....',
+                  '   ....................._..| |...........',
+                  '   ....................| |_| |...........',
+                  '   ....v. 1.5.3........\_____/...........')
+  
+    rightString = ('....................................',
+                   '._......_.................. _.......',
+                   '| \..../ |............_....| |......',
+                   '|  \../  |..__.._..._| |_..| |__....',
+                   '|   \/   |./  \| |.|_   _|.|    \...',
+                   '| |\  /| |.| O   |...| |...| /.\ \..',
+                   '|_|.\/.|_|.\__/|_|...\__|..|_|.|_|..',
+                   '....................................',
+                   '....................................',
+                   '...............by Barrett Brister...')
+        
+    for left, right in zip(leftString, rightString):
+        print(left + right)
     print('\nWelcome to Lingo Math!')
 
 '''Prints the rules of the game.'''
 def rules():
-    print('\nThe objective of Lingo Math is to guess a randomly-generated number within')
-    print('a limited number of guesses.  You may choose the '\
-          + 'number of digits that the')
-    print('number has, within a predefined range.  Larger numbers are harder '\
-          + 'to guess,')
-    print('so you will have more chances to guess them.  There are two '\
-          + 'important')
-    print('properties to remember about the number you are trying to guess:\n')
-    print('\t1) None of the digits are the same, so it can\'t be 211, 33, '\
-          + '4020, etc.')
-    print('\t2) The number must be a legitimate whole number, so it can\'t '\
-          + 'be 059,')
-    print('\t06, 132.4, -25, etc.\n')
-    print('\t\b(NOTE: Your guess must match both conditions.)\b\n')
-    print('To help you guess the number, you will receive a combination of '\
-          + 'three clues')
-    print('after each guess.  They are:\n')
-    print('\t' + STRIKE + ': None of the digits are right.')
-    print('\t' + FOUL + ': A correct digit is in the WRONG place.')
-    print('\t' + HIT + ': A correct digit is in the RIGHT place.\n')
-    print('For ' + FOUL + 's and ' + HIT + 's, you get one of the applicable'\
-          + ' clues per matching digit.')
-    print('This means that you could get more than one ' + HIT + ' and/or '\
-          + FOUL + ' per guess.\n')
-    input('(Press Enter to continue.)') #to separate out the rules
-    print('\nFor example, if your guess is 601, and the actual number is 615, '\
-          + 'then you')
-    print('would receive the following feedback:\n')
-    print('\t' + HIT + ' ' + FOUL + '\n')
-    print('The 6 is present and in the right place, thus producing the '\
-          + HIT + '.  Likewise,')
-    print('the 1 is present, but because it is in the wrong place, it '\
-          + 'produces the ' + FOUL + '.\n')
-    print('Use these clues to help you correctly guess the number.  If you do')
-    print('so before you run out of guesses, you win!  Good luck!')
+    ruleString1 = ' '.join((
+        '\nThe objective of Lingo Math is to guess a randomly-generated',
+        'number within a limited number of guesses. You may choose the',
+        'number of digits that the number has, within a predefined range.',
+        'Larger numbers are harder to guess, so you will have more chances',
+        'to guess them. There are two important properties to remember',
+        'about the number you are trying to guess:\n\n',
+        
+        '\t1. None of the digits are the same, so it can\'t be 211, 33,',
+        '4020, etc.\n',
+        '\t2. The number must be a legitimate whole number, so it can\'t',
+        'be 059, 06, 132.4, -25, etc.\n\n',
+        '\b(NOTE: Your guess must match both conditions.)\n\n',        
+    
+        '\bTo help you guess the number, you will receive a combination of',
+        'three clues after each guess.  They are:\n\n',
+
+        '\t' + STRIKE + ': None of the digits are right.\n',
+        '\t' + FOUL + ': A correct digit is in the WRONG place.\n',
+        '\t' + HIT + ': A correct digit is in the RIGHT place.'))
+
+    rulestring2 = ' '.join((        
+        '\nFor ' + FOUL + 's and ' + HIT + 's, you get one applicable clue',
+        'per matching digit. This means that you could get more than one',
+        HIT + ' and/or ' + FOUL + ' per guess. For example, if the actual',
+        'number is 6135 and your guess is 6013, then you would receive the',
+        'following feedback:\n\n',
+        
+        '\t' + HIT + ' ' + FOUL + ' ' + FOUL + '\n\n',
+        '\bThe 6 is present and in the right place, thus producing the',
+        HIT + '. Likewise, the 1 and 3 are present, but because they are',
+        'in the wrong places, they produce the two ' + FOUL + 's. Use',
+        'these clues to help you correctly guess the number. If you do so',
+        'before you run out of guesses, you win! Good luck!'))
+    
+    print(ruleString1)
+    input('(Press Enter to continue.)')
+    print(rulestring2)
 
 '''Plays the game.  Several local methods are contained here.'''
 def playGame(currMaxDifficulty):
@@ -138,16 +142,20 @@ def playGame(currMaxDifficulty):
         #So if it has four elements, the allowable digit sizes are 2, 3, 4,
         #and 5.
         resetMatch = False
-        DIGIT_SET = range(MIN_DIFFICULTY, currMaxDifficulty+1) #Legal size of the number, in digits.
-        ASSURANCE = '(This will increase as you win more games on the highest difficulty available)'
+        
+        #Legal size of the number, in digits
+        DIGIT_SET = range(MIN_DIFFICULTY, currMaxDifficulty+1)
+        ASSURANCE = '(This will increase as you win more games ' +\
+            'on the highest difficulty available)'
         if len(DIGIT_SET) > 1:
             print('\nSelect your difficulty level by entering the number of digits')
             print('you want the random number to be:', end=' ')
             for i in DIGIT_SET[:-1]:
                 print(str(i) + ',', end=' ')
             print(DIGIT_SET[-1])
+            
             #The difficulty level depends solely on how many digits are in the
-            #random number. Doing it the long way like this builds in flexibility
+            #random number. Doing it this way like this builds in flexibility
             #to the allowable entry sizes.
             if currMaxDifficulty < MAX_DIFFICULTY:
                 print(ASSURANCE)
@@ -162,8 +170,8 @@ def playGame(currMaxDifficulty):
                 if not(digits in DIGIT_SET):
                     DIGIT_STRINGS = ''
                     for i in range(len(DIGIT_SET) - 1):
-                        #All allowable digit sizes except the last (for grammar
-                        #purposes).
+                        #all allowable digit sizes except the last (for grammar
+                        #purposes)
                         DIGIT_STRINGS += str(DIGIT_SET[i]) + ', '
                     print('Please enter ' + DIGIT_STRINGS + 'or ' +\
                           str(DIGIT_SET[len(DIGIT_SET) - 1]) + '.')
@@ -174,28 +182,24 @@ def playGame(currMaxDifficulty):
             print(ASSURANCE)
         return [resetMatch, toReturn]
 
-    '''Generates the random number.  Because the game has to analyze the
-    guesses digit by digit, this is generated as a list, not a number.  (A
+    '''Generates the random number. Because the game has to analyze the
+    guesses digit by digit, this is generated as a list, not a number. (A
     method is put in place to convert it back to an int.)'''
     def generateNumber(digits):
         numberSet = []
         for i in range(digits):
-            if i == 0: #If it is the first digit,
-                lowLimit = 1 #Make sure it is not a zero.
-            else:
-                lowLimit = 0 #Other digits can be a zero.
+            lowLimit = [0,1][i==0]
 
-            firstPass = True
             #Make sure that trialDigit is not already in numberSet.
-            #Go through the loop at least once.
-            while firstPass or (trialDigit in numberSet):
+            while True:
                 trialDigit = random.randrange(lowLimit, 10)
-                firstPass = False
+                if not trialDigit in numberSet:
+                    break
             numberSet.append(trialDigit)
         return numberSet
 
-    '''Breaks apart an integer into a list.  It takes the units digit, puts it
-    on the list, divides the number by 10, and repeats until done.  This puts
+    '''Breaks apart an integer into a list. It takes the units digit, puts it
+    on the list, divides the number by 10, and repeats until done. This puts
     the list in backwards order, though, so it has to be reversed.'''
     def numberToSet(number):
         newSet = []
@@ -205,25 +209,18 @@ def playGame(currMaxDifficulty):
         newSet.reverse()
         return newSet
 
-    '''Puts a set of single-digit integers back into a single number.  It
+    '''Puts a set of single-digit integers back into a single number. It
     assumes that the incoming list uniquely contains single-digit whole
     numbers.'''
-    def setToNumber(oldSet):
+    def setToNumber(numSet):
         newNumber = 0
-        tenPower = 1
-        for i in range(len(oldSet) - 1, -1, -1):
-            #Start from the lowest place value and work up.  Since this
-            #corresponds to the highest index number, the for loop appears to
-            #go in reverse, but actually goes the correct way when this issue
-            #is considered.  The second parameter has to be -1 to get i to cycle
-            #all the way down to 0 and not stop at 1.
-            newNumber += oldSet[i] * tenPower
-            tenPower *= 10
+        for i, digit in enumerate(reversed(numSet)):
+            newNumber += 10**i * digit
         return newNumber
 
     '''Analyzing the guess to see how closely it matches, and return the
-    appropriate clues.  This method assumes that the two set lengths are
-    identical; this must be checked prior.  Note: The message returned is never
+    appropriate clues. This method assumes that the two set lengths are
+    identical; this must be checked prior. Note: The message returned is never
     blank.  At least one clue is always given--remember, if nothing matches,
     it's a strike.'''
     def analyzeGuess(guessSet, answerSet):
@@ -237,13 +234,11 @@ def playGame(currMaxDifficulty):
                 if guessSet[i] == answerSet[j]: #right number, wrong location
                     fouls += 1
                     strike = False #because at least one digit has been found
-        fouls = fouls - hits #to take away the extra matches
-        for i in range(hits):
-            message += HIT + ' '
-        for i in range(fouls):
-            message += FOUL + ' '
         if strike:
-            message = STRIKE
+            return STRIKE
+        fouls = fouls - hits #to take away the extra matches
+        message += hits*(HIT + ' ')
+        message += fouls*(FOUL + ' ')
         return message
 
     #playGame() starts here.
@@ -263,7 +258,7 @@ def playGame(currMaxDifficulty):
         try:
             #collect the guess
             guessNumber = int(input('(' + str(guessCount) +\
-                          ' guess' + suffix + ' left)' + PROMPT))
+                                    ' guess' + suffix + ' left)' + PROMPT))
             guessSet = numberToSet(guessNumber)
         except:
             guessNumber = None
@@ -281,9 +276,10 @@ def playGame(currMaxDifficulty):
             elif currMaxDifficulty < MAX_DIFFICULTY:
                 currMaxDifficulty += max(0, digits - currMaxDifficulty + 1)
             if len(answerSet) == MAX_DIFFICULTY:
-                print('\nCongratulations! You have won at the highest difficulty level!')
+                print('Congratulations! You have won at the highest difficulty level!')
+            print()
         elif len(guessSet) != len(answerSet): #wrong number of digits
-            print('Please enter a ' + str(digits) + '-digit whole number.')
+            print('\n\tPlease enter a ' + str(digits) + '-digit whole number.')
             #Note: There is no penalty if this occurs.
 
         else:
@@ -293,12 +289,15 @@ def playGame(currMaxDifficulty):
                 #don't want to compare digits to themselves!
                     if guessSet[i] == guessSet[j]:
                         legalNumber = False
+                        break
+                else:
+                    continue
+                break
             #This forces the player to guess a number that does
             #not duplicate digits, which would make guessing
-            #artificially easier.
+            #artificially easier. There is no penalty if this occurs.
             if not(legalNumber):
-                print('Guesses must contain unique digits.')
-                #Note: There is no penalty if this occurs.
+                print('\n\tGuesses must contain unique digits.')
             else: #good entry, but not the answer, so analyze it
                 print(analyzeGuess(guessSet, answerSet))
                 guessCount -= 1 #because a guess has been used
@@ -309,7 +308,6 @@ def playGame(currMaxDifficulty):
             print('\nSorry!')
         if not(gameOn) and guessSet != answerSet:
             print('The number was ' + str(setToNumber(answerSet)) + '.')
-        print()
     return currMaxDifficulty
 
 '''Main method'''
@@ -317,15 +315,17 @@ def main():
     QUIT = 0
     RULES = 1
     PLAY = 2
-    option = None
-    currMaxDifficulty = MIN_DIFFICULTY+1 #Starting value. Can increase as the game goes on.
+    # option = None
+    currMaxDifficulty = MIN_DIFFICULTY+1
+    #Starting value. Can increase as the game goes on.
     
     entryString()
-    while option != QUIT:
+    # while option != QUIT:
+    while True:
         print('\nChoose one of the following:')
         print(QUIT, 'to quit;')
         print(RULES, 'to see the rules;')
-        print(PLAY, 'to play Lingo Math.\n')
+        print(PLAY, 'to play Lingo Math.')
         try:
             option = int(input(PROMPT))
         except(ValueError):
@@ -335,12 +335,14 @@ def main():
             rules()
         elif option == PLAY:
             currMaxDifficulty = playGame(currMaxDifficulty)
-        elif option != QUIT:
-            print('Please enter ' + str(QUIT) + ', ' + str(RULES) \
-                  + ', or ' + str(PLAY) + '.')
+        elif option == QUIT:
+            break
+        else:
+            print(''.join(('Please enter ', str(QUIT), ', ', str(RULES),
+                           ', or ', str(PLAY), '.')))
     
     print('\nThank you for playing Lingo Math!')
     print('You can now safely exit Python, or you may enter \'main()\' '\
-          'to play again.\n')
+          'to play again.')
 
-main() #Automatically starts the program.
+main() #automatically starts the program
